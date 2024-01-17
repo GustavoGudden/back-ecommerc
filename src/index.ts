@@ -10,6 +10,7 @@ import { connectToPrisma, disconnectFromPrisma, getPrismaClient } from './common
 import { ProductModule } from './product/product.module';
 import { UserModule } from './user/user.module';
 import { CartModule } from './cart/cart.module';
+import { AuthModule } from './auth/auth.module';
 
 async function bootstrap() {
   const app = express();
@@ -21,9 +22,11 @@ async function bootstrap() {
    const prismaClient = getPrismaClient();
    await connectToPrisma(prismaClient);
 
+  new AuthModule(prismaClient).start(app)
+  new CartModule(prismaClient).start(app)
   new ProductModule(prismaClient).start(app)
   new UserModule(prismaClient).start(app)
-  new CartModule(prismaClient).start(app)
+
 
   app.listen(3000, () => {
     console.log(`Example app listening on port 3000`);

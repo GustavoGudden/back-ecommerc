@@ -10,6 +10,11 @@ import {  UserController } from './user.controller';
 // Service
 import { UserService } from './user.service';
 import {  UserRepository } from './repository/user.repository';
+import { HashUtil } from '../common/utils/hash.util';
+import { UserMiddleware } from './middlewares/create-user.middleware';
+
+
+// Util 
 
 
 
@@ -19,13 +24,17 @@ export class UserModule {
 
   start(app: Express) {
 
+
+    const hashUtil = new HashUtil()
+    const userMiddleware = new UserMiddleware(hashUtil)
+    
     const userRespository = new UserRepository(this.prismaClient)
 
     const userService = new  UserService(userRespository)
 
     const userController = new UserController(userService)
 
-    const  userRouter = new UserRouter(app, userController);
+    const  userRouter = new UserRouter(app, userController, userMiddleware);
 
     userRouter.execute();
   }
