@@ -1,17 +1,17 @@
 // Respositories
 import { AuthRepository } from "./repository/auth.repository";
-import crypto from 'crypto';
+
 // Types
 import { UserTokens } from "./types/token.type";
 import { User } from "@prisma/client";
 import { SingInDto } from "./dtos/singIn.dto";
-import { HmacBodyReq } from "./types/hmac.admin.type";
 
 // Ultil
 import { HashUtil } from "../common/utils/hash.util";
 
 // Strategies
 import { JwtStrategy } from "./strategies/jwt.strategy";
+
 
 
 
@@ -24,21 +24,7 @@ export class AuthService {
   }
 
 
-  async checkHmacAutentication(message:string,hmacSignature:string){
-    const expectedHmacSignature = crypto.createHmac('SHA256', 'Gudden_Secret').update(message).digest('base64')
-    const isAutenticated = crypto.timingSafeEqual(
-        Buffer.from(hmacSignature, 'base64'),
-        Buffer.from(expectedHmacSignature, 'base64')
-    );
-    return isAutenticated;  
-  }
 
-
-
-  async CreateHmacSignature() {
-    const message = "esta messagem deve estar Criptografada"
-    return crypto.createHmac('SHA256', 'Gudden_Secret').update(Buffer.from(message)).digest('base64')
-  } 
 
 
 

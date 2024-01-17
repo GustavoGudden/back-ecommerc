@@ -11,6 +11,8 @@ import { ProductModule } from './product/product.module';
 import { UserModule } from './user/user.module';
 import { CartModule } from './cart/cart.module';
 import { AuthModule } from './auth/auth.module';
+import dotenv from 'dotenv'
+dotenv.config();
 
 async function bootstrap() {
   const app = express();
