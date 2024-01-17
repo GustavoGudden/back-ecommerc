@@ -24,8 +24,8 @@ export class AuthService {
   }
 
 
-  async checkHmacAutentication(hmacSignature:string){
-    const expectedHmacSignature = crypto.createHmac('SHA256', 'Gudden_Secret').digest('base64')
+  async checkHmacAutentication(message:string,hmacSignature:string){
+    const expectedHmacSignature = crypto.createHmac('SHA256', 'Gudden_Secret').update(message).digest('base64')
     const isAutenticated = crypto.timingSafeEqual(
         Buffer.from(hmacSignature, 'base64'),
         Buffer.from(expectedHmacSignature, 'base64')
@@ -36,7 +36,8 @@ export class AuthService {
 
 
   async CreateHmacSignature() {
-    return crypto.createHmac('SHA256', 'Gudden_Secret').digest('base64')
+    const message = "esta messagem deve estar Criptografada"
+    return crypto.createHmac('SHA256', 'Gudden_Secret').update(Buffer.from(message)).digest('base64')
   } 
 
 

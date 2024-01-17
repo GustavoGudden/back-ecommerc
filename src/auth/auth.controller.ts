@@ -27,7 +27,8 @@ export class  AuthController {
 
   handleCheckIntegrity = async (req: Request, res: Response) =>{
      const hmacSignature = req.header('hmac-signature')
-      const isAdmin  = await this.authService.checkHmacAutentication(hmacSignature!)
+     const { message } = req.body
+      const isAdmin  = await this.authService.checkHmacAutentication(message,hmacSignature!)
       if(isAdmin){
         res.send({
           message:'usuario admin autenticado'
